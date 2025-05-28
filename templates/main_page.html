@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Registration Form</title>
+    <style>
+        /* Tape styling */
+        body {
+            position: relative;
+        }
+        
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            width: 35px;
+            height: 100%;
+            background-color: #077A7D;
+            z-index: 1000;
+        }
+        
+        body::before {
+            left: 0;
+        }
+        
+        body::after {
+            right: 0;
+        }
+        
+        /* Main content styling */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 70px !important; /* Adjusted for tapes */
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .header-container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-container {
+            margin-right: 20px;
+        }
+        
+        .logo-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .form-container {
+            flex: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: left;
+        }
+        
+        input, input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #077A7D;
+            border-radius: 4px;
+            text-align: left;
+        }
+        
+        button {
+            background-color: #077A7D;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #7AE2CF;
+        }
+        
+        h1 {
+            text-align: left;
+            margin: 0;
+            flex: 1;
+        }
+        
+        ::placeholder {
+            text-align: left;
+        }
+        
+        .file-input-container {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .radio-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .radio-option {
+            margin-right: 15px;
+            display: inline-block;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .checkbox-group {
+            margin: 15px 0;
+            text-align: left;
+            display: none;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #F5EEDD;
+        }
+        
+        .checkbox-option {
+            margin-right: 15px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-option input {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .error {
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: none;
+            color: #ff0000;
+        }
+        
+        .disabled-option {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .logo-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            animation: bounce 2s infinite;
+        }
+
+        /* Bounce animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .price-display {
+            color: #7AE2CF;
+            font-weight: bold;
+            margin-left: 5px;
+            display: none;
+        }
+        
+        .total-price {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #077A7D;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .upload-notice {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        .payment-instruction {
+            background-color: #F5EEDD;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #ff0000;
+            font-weight: bold;
+        }
+        
+        .required {
+            color: #ff0000;
+        }
+        
+        .has-error {
+            border-color: #ff0000 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>Exam Registration Form</h1>
+        <div class="logo-container">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS78BFsV1ZYEQXNZGQDsawr1osV3zsVFsjtPw&s" alt="OSD Exam Center">
+        </div>
+    </div>
+    
+    <div class="form-container">
+        <form id="myForm" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="input1">First Name <span class="required">*</span></label>
+                <input type="text" id="input1" name="input1" placeholder="Enter your first name" required>
+                <div class="error" id="input1-error">Please enter your first name</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="input2">Last Name <span class="required">*</span></label>
+                <input type="text" id="input2" name="input2" placeholder="Enter your last name" required>
+                <div class="error" id="input2-error">Please enter your last name</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="input3">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="input3" name="input3" placeholder="Enter your phone number" required>
+                <div class="error" id="input3-error">Please enter your phone number</div>
+            </div>
+
+            <div class="form-group">
+                <label for="input4">Email <span class="required">*</span></label>
+                <input type="email" id="input4" name="input4" placeholder="Enter your email" required>
+                <div class="error" id="input4-error">Please enter a valid email</div>
+            </div>
+
+            <div class="radio-group">
+                <label>Exam Type: <span class="required">*</span></label>
+                <div class="radio-option">
+                    <input type="radio" id="exam-a1" name="exam-type" value="A1" checked required>
+                    <label for="exam-a1">A1</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="exam-a2" name="exam-type" value="A2">
+                    <label for="exam-a2">A2</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="exam-b1" name="exam-type" value="B1">
+                    <label for="exam-b1">B1</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="exam-b2" name="exam-type" value="B2">
+                    <label for="exam-b2">B2</label>
+                </div>
+            </div>
+
+            <!-- Conditional Checkbox Groups -->
+            <div id="a1-checkboxes" class="checkbox-group">
+                <label>Please select the relevant section <span class="required">*</span></label>
+                <div class="checkbox-option">
+                    <input type="radio" id="a1-option1" name="a1-options" value="Mündlich">
+                    <label for="a1-option1">Reading</label>
+                    <span class="price-display" id="a1-option1-price">50€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="a1-option2" name="a1-options" value="Schriftlich">
+                    <label for="a1-option2">Writing</label>
+                    <span class="price-display" id="a1-option2-price">60€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="a1-option3" name="a1-options" value="Gesamt">
+                    <label for="a1-option3">Complete</label>
+                    <span class="price-display" id="a1-option3-price">100€</span>
+                </div>
+                <div class="error" id="a1-options-error">Please select an option</div>
+                <div class="total-price" id="a1-total-price">Total: <span id="a1-total-amount">0</span>€</div>
+            </div>
+
+            <div id="a2-checkboxes" class="checkbox-group">
+                <label>Please select the relevant section <span class="required">*</span></label>
+                <div class="checkbox-option">
+                    <input type="radio" id="a2-option1" name="a2-options" value="Mündlich">
+                    <label for="a2-option1">Reading</label>
+                    <span class="price-display" id="a2-option1-price">60€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="a2-option2" name="a2-options" value="Schriftlich">
+                    <label for="a2-option2">Writing</label>
+                    <span class="price-display" id="a2-option2-price">70€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="a2-option3" name="a2-options" value="Gesamt">
+                    <label for="a2-option3">Complete</label>
+                    <span class="price-display" id="a2-option3-price">120€</span>
+                </div>
+                <div class="error" id="a2-options-error">Please select an option</div>
+                <div class="total-price" id="a2-total-price">Total: <span id="a2-total-amount">0</span>€</div>
+            </div>
+
+            <div id="b1-checkboxes" class="checkbox-group">
+                <label>Please select the relevant section <span class="required">*</span></label>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="b1-option1" name="b1-options" value="lesen" class="b1-option">
+                    <label for="b1-option1">Reading</label>
+                    <span class="price-display" id="b1-option1-price">40€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="b1-option2" name="b1-options" value="Horen" class="b1-option">
+                    <label for="b1-option2">Listening</label>
+                    <span class="price-display" id="b1-option2-price">50€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="b1-option3" name="b1-options" value="Schreiben" class="b1-option">
+                    <label for="b1-option3">Writing</label>
+                    <span class="price-display" id="b1-option3-price">60€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="b1-option4" name="b1-options" value="Sprechen" class="b1-option">
+                    <label for="b1-option4">Speaking</label>
+                    <span class="price-display" id="b1-option4-price">70€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="b1-option5" name="b1-options" value="Gesamt" class="b1-gesamt">
+                    <label for="b1-option5">Complete</label>
+                    <span class="price-display" id="b1-option5-price">200€</span>
+                </div>
+                <div class="error" id="b1-options-error">Please select at least one option</div>
+                <div class="error" id="b1-exclusive-error" style="display: none;">You cannot select Complete with other options</div>
+                <div class="total-price" id="b1-total-price">Total: <span id="b1-total-amount">0</span>€</div>
+            </div>
+
+            <div id="b2-checkboxes" class="checkbox-group">
+                <label>Please select the relevant section <span class="required">*</span></label>
+                <div class="checkbox-option">
+                    <input type="radio" id="b2-option1" name="b2-options" value="Mündlich">
+                    <label for="b2-option1">Reading</label>
+                    <span class="price-display" id="b2-option1-price">70€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="b2-option2" name="b2-options" value="Schriftlich">
+                    <label for="b2-option2">Writing</label>
+                    <span class="price-display" id="b2-option2-price">80€</span>
+                </div>
+                <div class="checkbox-option">
+                    <input type="radio" id="b2-option3" name="b2-options" value="Gesamt">
+                    <label for="b2-option3">Complete</label>
+                    <span class="price-display" id="b2-option3-price">140€</span>
+                </div>
+                <div class="error" id="b2-options-error">Please select an option</div>
+                <div class="total-price" id="b2-total-price">Total: <span id="b2-total-amount">0</span>€</div>
+            </div>
+
+            <div class="payment-instruction">
+                Please transfer the full amount to card number 5022291055555555
+            </div>
+
+            <div class="form-group" style="display: flex; justify-content: space-between;">
+                <div style="flex: 1; margin-right: 10px;">
+                    <label for="pass-upload">Upload Passport Image <span class="required">*</span></label>
+                    <div class="file-input-container">
+                        <input type="file" id="pass-upload" name="pass-upload" accept="image/*" required>
+                    </div>
+                    <div class="error" id="pass-upload-error">Please upload passport image</div>
+                </div>
+            
+                <div style="flex: 1; margin-left: 10px;">
+                    <label for="image-upload">Upload Payment Receipt <span class="required">*</span></label>
+                    <div class="file-input-container">
+                        <input type="file" id="image-upload" name="image-upload" accept="image/*" required>
+                    </div>
+                    <div class="error" id="image-upload-error">Please upload payment receipt</div>
+                </div>
+            </div>            
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('myForm');
+            const examTypeRadios = document.querySelectorAll('input[name="exam-type"]');
+            const checkboxGroups = {
+                'A1': {
+                    element: document.getElementById('a1-checkboxes'),
+                    checkboxes: document.querySelectorAll('input[name="a1-options"]'),
+                    error: document.getElementById('a1-options-error'),
+                    singleSelect: true,
+                    prices: {
+                        'a1-option1': 50,
+                        'a1-option2': 60,
+                        'a1-option3': 100
+                    }
+                },
+                'A2': {
+                    element: document.getElementById('a2-checkboxes'),
+                    checkboxes: document.querySelectorAll('input[name="a2-options"]'),
+                    error: document.getElementById('a2-options-error'),
+                    singleSelect: true,
+                    prices: {
+                        'a2-option1': 60,
+                        'a2-option2': 70,
+                        'a2-option3': 120
+                    }
+                },
+                'B1': {
+                    element: document.getElementById('b1-checkboxes'),
+                    checkboxes: document.querySelectorAll('input[name="b1-options"]'),
+                    error: document.getElementById('b1-options-error'),
+                    exclusiveError: document.getElementById('b1-exclusive-error'),
+                    singleSelect: false,
+                    prices: {
+                        'b1-option1': 40,
+                        'b1-option2': 50,
+                        'b1-option3': 60,
+                        'b1-option4': 70,
+                        'b1-option5': 200
+                    }
+                },
+                'B2': {
+                    element: document.getElementById('b2-checkboxes'),
+                    checkboxes: document.querySelectorAll('input[name="b2-options"]'),
+                    error: document.getElementById('b2-options-error'),
+                    singleSelect: true,
+                    prices: {
+                        'b2-option1': 70,
+                        'b2-option2': 80,
+                        'b2-option3': 140
+                    }
+                }
+            };
+
+            // Show/hide checkbox groups based on selection
+            function updateCheckboxGroups() {
+                // Hide all checkbox groups first
+                Object.values(checkboxGroups).forEach(group => {
+                    group.element.style.display = 'none';
+                    group.error.style.display = 'none';
+                    if (group.exclusiveError) {
+                        group.exclusiveError.style.display = 'none';
+                    }
+                    
+                    // Hide all price displays and reset total
+                    const priceDisplays = group.element.querySelectorAll('.price-display');
+                    priceDisplays.forEach(display => {
+                        display.style.display = 'none';
+                    });
+                    
+                    const totalPrice = group.element.querySelector('.total-price');
+                    if (totalPrice) {
+                        totalPrice.style.display = 'none';
+                    }
+                });
+                
+                // Show the selected one
+                const selectedValue = document.querySelector('input[name="exam-type"]:checked').value;
+                checkboxGroups[selectedValue].element.style.display = 'block';
+            }
+
+            // Update price displays and calculate total
+            function updatePrices(group) {
+                let total = 0;
+                const selectedOptions = [];
+                
+                // Show prices for selected options and calculate total
+                group.checkboxes.forEach(checkbox => {
+                    const priceDisplay = document.getElementById(`${checkbox.id}-price`);
+                    if (checkbox.checked) {
+                        priceDisplay.style.display = 'inline';
+                        total += group.prices[checkbox.id];
+                        selectedOptions.push(checkbox.id);
+                    } else {
+                        priceDisplay.style.display = 'none';
+                    }
+                });
+                
+                // Update total price display
+                const totalDisplay = group.element.querySelector('.total-price');
+                const totalAmount = group.element.querySelector('.total-price span');
+                
+                if (selectedOptions.length > 0) {
+                    totalAmount.textContent = total;
+                    totalDisplay.style.display = 'block';
+                } else {
+                    totalDisplay.style.display = 'none';
+                }
+            }
+
+            // Add event listeners to all radio buttons
+            examTypeRadios.forEach(radio => {
+                radio.addEventListener('change', updateCheckboxGroups);
+            });
+
+            // Initialize on page load
+            updateCheckboxGroups();
+
+            // Add event listeners to all checkboxes/radio buttons for price updates
+            Object.entries(checkboxGroups).forEach(([key, group]) => {
+                group.checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        updatePrices(group);
+                        
+                        // For single-select groups, update immediately
+                        if (group.singleSelect) {
+                            updatePrices(group);
+                        }
+                    });
+                });
+            });
+
+            // Handle B1 checkbox logic
+            const b1Options = document.querySelectorAll('.b1-option');
+            const b1Gesamt = document.querySelector('.b1-gesamt');
+            const b1ExclusiveError = document.getElementById('b1-exclusive-error');
+
+            function updateB1Options() {
+                // Count how many regular options are checked
+                let regularChecked = 0;
+                b1Options.forEach(option => {
+                    if (option.checked) regularChecked++;
+                });
+
+                // If Gesamt is checked, disable all other options
+                if (b1Gesamt.checked) {
+                    b1Options.forEach(option => {
+                        option.checked = false;
+                        option.classList.add('disabled-option');
+                    });
+                    b1ExclusiveError.style.display = 'none';
+                } 
+                // If any regular option is checked, disable Gesamt
+                else if (regularChecked > 0) {
+                    b1Gesamt.classList.add('disabled-option');
+                    b1Gesamt.checked = false;
+                } 
+                // If nothing is checked, enable all options
+                else {
+                    b1Options.forEach(option => {
+                        option.classList.remove('disabled-option');
+                    });
+                    b1Gesamt.classList.remove('disabled-option');
+                }
+                
+                // Update prices after changes
+                updatePrices(checkboxGroups['B1']);
+            }
+
+            // Add event listeners to B1 checkboxes
+            b1Options.forEach(option => {
+                option.addEventListener('change', updateB1Options);
+            });
+            b1Gesamt.addEventListener('change', updateB1Options);
+
+            // Form validation
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                let isValid = true;
+                
+                // Validate required text fields
+                const requiredInputs = [
+                    { id: 'input1', errorId: 'input1-error' },
+                    { id: 'input2', errorId: 'input2-error' },
+                    { id: 'input3', errorId: 'input3-error' },
+                    { id: 'input4', errorId: 'input4-error' },
+                    { id: 'pass-upload', errorId: 'pass-upload-error' },
+                    { id: 'image-upload', errorId: 'image-upload-error' }
+                ];
+                
+                requiredInputs.forEach(input => {
+                    const field = document.getElementById(input.id);
+                    const error = document.getElementById(input.errorId);
+                    
+                    if (!field.value) {
+                        field.classList.add('has-error');
+                        error.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        field.classList.remove('has-error');
+                        error.style.display = 'none';
+                    }
+                });
+                
+                // Validate email format
+                const emailField = document.getElementById('input4');
+                const emailError = document.getElementById('input4-error');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailField.value && !emailRegex.test(emailField.value)) {
+                    emailField.classList.add('has-error');
+                    emailError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate checkbox groups
+                const selectedExamType = document.querySelector('input[name="exam-type"]:checked').value;
+                const currentCheckboxGroup = checkboxGroups[selectedExamType];
+                let atLeastOneChecked = false;
+                
+                currentCheckboxGroup.checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        atLeastOneChecked = true;
+                    }
+                });
+                
+                // Special validation for B1 group
+                if (selectedExamType === 'B1') {
+                    const regularChecked = document.querySelectorAll('.b1-option:checked').length;
+                    const gesamtChecked = b1Gesamt.checked;
+                    
+                    if (regularChecked > 0 && gesamtChecked) {
+                        currentCheckboxGroup.exclusiveError.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        currentCheckboxGroup.exclusiveError.style.display = 'none';
+                    }
+                }
+                
+                if (!atLeastOneChecked) {
+                    currentCheckboxGroup.error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    currentCheckboxGroup.error.style.display = 'none';
+                }
+                
+                if (!isValid) {
+                    // Scroll to the first error
+                    const firstError = document.querySelector('.error[style="display: block;"]');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+
+                // Submit form via Fetch API
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch('/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.status === "success") {
+                        alert("Your form has been submitted successfully!");
+                        form.reset();
+                    } else {
+                        alert("Error: " + result.message);
+                    }
+                } catch (error) {
+                    alert("Server connection error");
+                }
+            });
+            
+            // Clear errors when user starts typing
+            const inputs = document.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.classList.remove('has-error');
+                    const errorId = this.id + '-error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Clear errors when file inputs change
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    this.classList.remove('has-error');
+                    const errorId = this.id + '-error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Clear errors when checkboxes/radio buttons change
+            Object.values(checkboxGroups).forEach(group => {
+                group.checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        let atLeastOneChecked = false;
+                        group.checkboxes.forEach(cb => {
+                            if (cb.checked) {
+                                atLeastOneChecked = true;
+                            }
+                        });
+                        
+                        if (atLeastOneChecked) {
+                            group.error.style.display = 'none';
+                            if (group.exclusiveError) {
+                                group.exclusiveError.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

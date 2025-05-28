@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #006D77;
+            --secondary: #83C5BE;
+            --accent: #FFDDD2;
+            --light: #EDF6F9;
+            --dark: #2B2D42;
+            --gray: #6c757d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .submissions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .submission {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-left: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submission::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .submission:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 109, 119, 0.15);
+        }
+        
+        .submission h2 {
+            margin: 0 0 20px 0;
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .submission h2::before {
+            content: '📋';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .field {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .field label {
+            font-weight: 500;
+            color: var(--primary);
+            width: 140px;
+            margin-right: 15px;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .field label::after {
+            content: ':';
+            margin-left: 2px;
+        }
+        
+        .field span {
+            flex: 1;
+            word-break: break-word;
+            padding: 5px 0;
+            color: var(--dark);
+        }
+        
+        img {
+            max-width: 100%;
+            max-height: 200px;
+            height: auto;
+            margin-top: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 5px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        img:hover {
+            transform: scale(1.02);
+        }
+        
+        .no-submissions {
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+        
+        .no-submissions p {
+            margin-bottom: 20px;
+        }
+        
+        .no-submissions::before {
+            content: '📭';
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 109, 119, 0.2);
+        }
+        
+        .download-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 109, 119, 0.3);
+        }
+        
+        .download-btn::before {
+            content: '⬇️';
+            margin-right: 8px;
+        }
+        
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .badge-a1 { background-color: #e3f2fd; color: #1565c0; }
+        .badge-a2 { background-color: #e8f5e9; color: #2e7d32; }
+        .badge-b1 { background-color: #fff3e0; color: #ef6c00; }
+        .badge-b2 { background-color: #f3e5f5; color: #7b1fa2; }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .submissions-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .field {
+                flex-direction: column;
+            }
+            
+            .field label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        {% if submissions %}
+            <div class="submissions-container">
+                {% for submission in submissions %}
+                    <div class="submission">
+                        <h2>Payment #{{ loop.index }}</h2>
+                        <div class="field">
+                            <label>First Name</label>
+                            <span>{{ submission.input1 }}</span>
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <span>{{ submission.input2 }}</span>
+                        </div>
+                        <div class="field">
+                            <label>Phone</label>
+                            <span>{{ submission.input3 }}</span>
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+                            <span>{{ submission.input4 }}</span>
+                        </div>
+                        <div class="field">
+                            <label>Exam Type</label>
+                            <span>
+                                {{ submission['exam-type'] }}
+                                <span class="badge badge-{{ submission['exam-type']|lower }}">{{ submission['exam-type'] }}</span>
+                            </span>
+                        </div>
+                        <div class="field">
+                            <label>Section</label>
+                            <span>
+                                {% if submission['exam-type'] == 'A1' %}
+                                    {{ submission['a1-options'] }}
+                                {% elif submission['exam-type'] == 'A2' %}
+                                    {{ submission['a2-options'] }}
+                                {% elif submission['exam-type'] == 'B1' %}
+                                    {{ submission['b1-selected-options'] }}
+                                {% elif submission['exam-type'] == 'B2' %}
+                                    {{ submission['b2-options'] }}
+                                {% else %}
+                                    No section selected
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="field">
+                            <label>Passport Photo</label>
+                            <span class="image-container">
+                                {% if submission['pass-upload'] %}
+                                    <img src="{{ url_for('uploaded_file', filename=submission['pass-upload']) }}" alt="Passport">
+                                    <a href="{{ url_for('uploaded_file', filename=submission['pass-upload']) }}" class="download-btn" download="passport_{{ submission.input1 }}_{{ submission.input2 }}.jpg">Download Passport</a>
+                                {% else %}
+                                    <span>No file uploaded</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="field">
+                            <label>Payment Receipt</label>
+                            <span class="image-container">
+                                {% if submission['image-upload'] %}
+                                    <img src="{{ url_for('uploaded_file', filename=submission['image-upload']) }}" alt="Payment Receipt">
+                                    <a href="{{ url_for('uploaded_file', filename=submission['image-upload']) }}" class="download-btn" download="receipt_{{ submission.input1 }}_{{ submission.input2 }}.jpg">Download Receipt</a>
+                                {% else %}
+                                    <span>No file uploaded</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-submissions">
+                <p>No submissions found</p>
+                <p>When applicants submit their forms, they will appear here.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
