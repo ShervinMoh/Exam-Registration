@@ -799,3 +799,7 @@ if __name__ == '__main__':
 ```
 - Runs the Flask application on all available interfaces at port 5000 with debug mode enabled, allowing live reloading and error visibility.
 
+---
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
